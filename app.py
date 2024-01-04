@@ -26,14 +26,6 @@ def upload_to_blob_storage(image_url, container_name, blob_name):
     response = requests.get(image_url, stream=True)
     blob_client = blob_service_client.get_blob_client(container_name, blob_name)
     blob_client.upload_blob(response.raw, overwrite=True)
-    # image_data = requests.get(image_url).content
-    # response = requests.get(image_url)
-    # img = Image.open(BytesIO(response.content))
-    # img_bytes = img.tobytes()
-    # blob_client.upload_blob(img_bytes, overwrite=True)
-
-
-
 
 if __name__ == "__main__":
     st.title("Image Generator")
