@@ -37,9 +37,6 @@ if __name__ == "__main__":
         results = generate_image(image_prompt)
 
         if results:
-            for x in range(len(results)):
-                # st.write(x)
-                # st.write(results[x])
-                blob_name = f"generated_image_{x}.png"
-                upload_to_blob_storage(results[x], "testcontainer", blob_name)
-            st.image(results, width=600)
+            blob_name = f"generated_image.png"
+            upload_to_blob_storage(results, "testcontainer", blob_name)
+            st.image(results, width=600, caption=f"Image")
