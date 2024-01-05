@@ -28,15 +28,31 @@ def upload_to_blob_storage(image_url, container_name, blob_name):
     blob_client.upload_blob(response.raw, overwrite=True)
 
 if __name__ == "__main__":
+    st.sidebar.title("Azure AOAI with GTI")
+    st.sidebar.image("https://media.licdn.com/dms/image/C560BAQG-z4mFpkcj1g/company-logo_200_200/0/1631388948853?e=2147483647&v=beta&t=9K8Ajrde__ehRbdaYlLsp7oJhqfEUPZuSBs7StG2h6k", width=200)    
     st.title("Image Generator")
-    st.write("Provide the prompt of image you want to generate:")
-    image_prompt = st.text_input("Image Prompt", "")
+    st.write("Select a prompt for the image you want to generate:")
+    image_prompt = st.selectbox(
+        "Image Prompt",
+        [
+            "",  # Empty option
+            "A blue whale wearing a monocle and a top hat",
+            "A stained glass window of a unicorn in a forest",
+            "A surreal painting of a clock melting on a beach",
+            "A logo for a company called OpenAI",
+            "A portrait of Albert Einstein as a superhero",
+        ],
+    )
 
     if image_prompt:
         st.write("Generating image...")
         results = generate_image(image_prompt)
 
         if results:
-            blob_name = f"generated_image.png"
-            upload_to_blob_storage(results, "testcontainer", blob_name)
-            st.image(results, width=600, caption=f"Image")
+            for x in range(len(results)):
+                # st.write(x)
+                # st.write(results[x])
+                blob_name = f"generated_image_{x}.png"
+                upload_to_blob_storage(results[x], "testcontainer", blob_name)
+            st.image(results, width=600)
+
